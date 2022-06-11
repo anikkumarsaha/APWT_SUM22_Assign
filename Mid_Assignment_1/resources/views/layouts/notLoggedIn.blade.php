@@ -1,0 +1,9 @@
+<html>
+    <head></head>
+    <body>
+        @include('includes.notLoggedInTopbar')
+        <div>
+            @yield('content')
+        </div>
+    </body>
+</html>
