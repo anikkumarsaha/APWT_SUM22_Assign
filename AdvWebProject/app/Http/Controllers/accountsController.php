@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\accountsModel;
 use App\Models\moviesModel;
-use App\Models\customersModel;
 use App\Models\customersMoviesModel;
 
 class accountsController extends Controller
@@ -17,18 +16,18 @@ class accountsController extends Controller
     function publicLoginSubmit(Request $req){
         $this->validate($req,
             [
-                "username"=>"required|exists:customers,Username",
+                "username"=>"required|exists:accounts,Username",
                 "password"=>"required"
             ]);
 
-            $checkUser = customersModel::where('username','=',$req->username)->where('password','=',$req->password)->first();
+            $checkUser = accountsModel::where('username','=',$req->username)->where('password','=',$req->password)->first();
             if($checkUser){
                 session()->put('username',$checkUser->username);
                 session()->put('email',$checkUser->email);
                 session()->put('password',$checkUser->password);
                 session()->put('role',$checkUser->role);
                 if($checkUser->role == 'Admin'){
-                    return view("admin.dashboard");
+                    return redirect()->route("admin.checkCustomersMovies");
                 }
             }
             else{
@@ -60,7 +59,7 @@ class accountsController extends Controller
                 "confirmPassword.same"=>"Confirm password and password must match"
             ]);
 
-            $register = new customersModel();
+            $register = new accountsModel();
             $register->username = $req->username;
             $register->email = $req->email;
             $register->password = $req->password;

@@ -5,14 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\accountsModel;
 use App\Models\moviesModel;
-use App\Models\customersModel;
 use App\Models\customersMoviesModel;
 
 class adminController extends Controller
 {
-    function adminDashboard(){
-        return view('admin.dashboard');
-    }
 
     function adminProfile(){
         return view('admin.profile');
@@ -30,7 +26,7 @@ class adminController extends Controller
                 "conf_pass"=>"required|same:new_pass"
             ]);
 
-            $checkUser = customersModel::where('username','=',$req->username)->first();
+            $checkUser = accountsModel::where('username','=',$req->username)->first();
             if($req->curr_pass == $checkUser->password){
                 $checkUser->password= $req->new_pass;
                 $checkUser->save();
@@ -41,6 +37,38 @@ class adminController extends Controller
 
     function adminCheckCustomersMovies(){
         $customersMovies = customersMoviesModel::all();
-        return view('admin.dashboard')->with('CheckCustomersMovies',$customersMovies);
+        return view('admin.dashboard')->with('CustomerMovieMIX',$customersMovies);
+    }
+    public function adminUserList()
+    {
+        $users = accountsModel::where('role','=','Customer')->paginate(10);
+        return view('admin.userlist')->with('users',$users);
+    }
+
+    public function adminChangeRole($id)
+    {
+        $user = accountsModel::where('id','=',$id)->first();
+        return view('admin.changeRole')->with('customer',$user);
+    }
+
+    public function adminChangeRoleSubmit(Request $req)
+    {
+        $user = accountsModel::where('id','=',$req->id)->first();
+        $user->role = $req->role;
+        $user->save();
+
+        $users = accountsModel::where('role','=','Customer')->paginate(10);
+        return view('admin.userlist')->with('users',$users);
+    }
+
+    function adminSearchUsersSubmit(Request $req){
+        $this->validate($req,
+            [
+                "search"=>"required"
+            ]);
+
+            $users = accountsModel::where('role','=','Customer')->where('username','LIKE',$req->search.'%')->paginate(10);
+            return view('admin.userlist')->with('users',$users);
+            echo $users;
     }
 }

@@ -7,18 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\accountsModel;
 use App\Models\moviesModel;
-use App\Models\customersModel;
+
 
 class customersMoviesModel extends Model
 {
     use HasFactory;
 
-    protected $table = "map_user_movie";
+    protected $table = "map_customer_movie";
     protected $primaryKey = "id";
     public $timestamps=false;
 
-    public function customersModel(){
-        return $this->belongsTo(customersModel::class,'c_id','id');
+    public function accountsModel(){
+        return $this->belongsTo(accountsModel::class,'c_id','id');
     }
 
     public function moviesModel(){

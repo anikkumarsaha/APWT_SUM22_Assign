@@ -11,5 +11,11 @@
         <a href="{{route('public.logout')}}"><button>LOGOUT</button></a>
         </td>
     </tr>
+
+    <tr>
+        <td>
+        <a href="{{route('admin.userlist')}}">User List</a>
+        </td>
+    </tr>
 </table>
 <hr>

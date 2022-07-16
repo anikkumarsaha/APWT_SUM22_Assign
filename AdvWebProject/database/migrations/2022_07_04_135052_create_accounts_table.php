@@ -19,8 +19,11 @@ return new class extends Migration
             $table->string('username');
             $table->string('password');
             $table->string('email');
-            $table->string('role')->default('Customer');            
-
+            $table->string('role')->default('Customer');  
+            $table->boolean('Payement')->default(FALSE);
+            $table->dateTime('PayementDate', $precision = 0);
+            $table->string('status')->default('Inactive');
+            
         });
     }
 
@@ -31,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('customers');
     }
 };

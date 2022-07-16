@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\accountsModel;
-use App\Models\customersModel;
 use App\Models\customersMoviesModel;
 
 class moviesModel extends Model
